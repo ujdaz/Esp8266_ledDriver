@@ -39,7 +39,6 @@ AUTHKEY);          // Authorization key
 void loop()
 {
 	SuplaDevice.iterate();
-
 };
 
 
