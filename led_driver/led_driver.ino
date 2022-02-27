@@ -1,21 +1,30 @@
 #include <ESP8266WiFi.h>
 #include "RGBMI_driver.h"
+#include "WiFiconf.h"
 
 int state = LOW;
 int LED = LED_BUILTIN;
 char on = LOW;
 char off = HIGH;
 
-const char* ssid = "szczesliwy dom";
-const char* password = "Z@rtowalem1";
+const char* ssid = WiFissid;
+const char* password = WiFipassword;
 
 WiFiServer server(80);
+
+
+
 
 void setup()
 {
   Serial.begin(115200);
   pinMode(LED, OUTPUT);
   digitalWrite(LED, off);
+  #ifdef WiFiStaticIP
+  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+    Serial.println("STA Failed to configure");
+  }
+  #endif
 
   Serial.print("Connecting");
   WiFi.begin(ssid, password);
