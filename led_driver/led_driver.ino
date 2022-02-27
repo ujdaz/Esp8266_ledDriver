@@ -1,44 +1,168 @@
-#include <SuplaDevice.h>
-#include "supla/network/esp_wifi.h"
-#include "supla/control/rgbw_leds.h"
-#include "supla/control/dimmer_leds.h"
+#include <ESP8266WiFi.h>
 
-#ifdef ARDUINO_ARCH_AVR
-  // Arduino Mega with EthernetShield W5100:
-#include <supla/network/ethernet_shield.h>
-  // Ethernet MAC address
-uint8_t mac[6] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
-Supla::EthernetShield ethernet(mac);
+int state = LOW;
+int LED = LED_BUILTIN;
+char on = LOW;
+char off = HIGH;
 
-  // Arduino Mega with ENC28J60:
-  // #include <supla/network/ENC28J60.h>
-  // Supla::ENC28J60 ethernet(mac);
-#elif defined(ARDUINO_ARCH_ESP8266) || defined(ARDUINO_ARCH_ESP32)
-  // ESP8266 and ESP32 based board:
-#include <supla/network/esp_wifi.h>
-Supla::ESPWifi wifi("toya88096464", "95680956");
-#endif
+const char* ssid = "szczesliwy dom";
+const char* password = "Z@rtowalem1";
 
-#define RED_PIN 5
-#define GREEN_PIN 4
-#define BLUE_PIN 0
-#define BRIGHTNESS_PIN 13
+WiFiServer server(80);
+
 void setup()
 {
-char GUID[SUPLA_GUID_SIZE] = {0x34,0x28,0xDC,0x1D,0x1B,0x92,0xAE,0xE0,0xA1,0xC7,0xA5,0xF3,0x78,0x84,0xC8,0x2A};
-char AUTHKEY[SUPLA_AUTHKEY_SIZE] = {0x4C,0xF2,0xD0,0x89,0x19,0x9E,0xFE,0x03,0x51,0xEB,0x7E,0x57,0x94,0xA6,0x4F,0xA1};
+  Serial.begin(115200);
+  pinMode(LED, OUTPUT);
+  digitalWrite(LED, off);
 
-auto rgbw = new Supla::Control::RGBWLeds(RED_PIN, GREEN_PIN, BLUE_PIN, BRIGHTNESS_PIN);
+  Serial.print("Connecting");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("WiFi connected");  
+  server.begin();  // Starts the Server
+  Serial.println("Server started");
 
-SuplaDevice.begin(
-GUID,              // Global Unique Identifier
-"svr25.supla.org",  // SUPLA server address
-"Przemek781@gmail.com",   // Email address used to login to Supla Cloud
-AUTHKEY);          // Authorization key
+  Serial.print("IP Address of network: "); // Prints IP address on Serial Monitor
+  Serial.println(WiFi.localIP());
+  Serial.print("Copy and paste the following URL: https://");
+  Serial.print(WiFi.localIP());
+  Serial.println("/");
 }
+
 void loop()
 {
-	SuplaDevice.iterate();
-};
+  WiFiClient client = server.available();
+  if (!client)
+  {
+    return;
+  }
+  Serial.println("Waiting for new client");
+  while(!client.available())
+  {
+    delay(1);
+  }
 
+  String request = client.readStringUntil('\r');
+  Serial.println(request);
+  client.flush();
 
+  
+  if(request.indexOf("/LEDON") != -1)
+  {
+    digitalWrite(LED, on); // Turn ON LED
+    state = on;
+  }
+  if(request.indexOf("/LEDOFF") != -1)
+  {
+    digitalWrite(LED, off); // Turn OFF LED
+    state = off;
+  }
+
+/*------------------HTML Page Creation---------------------*/
+
+  client.println("HTTP/1.1 200 OK"); // standalone web server with an ESP8266
+  client.println("Content-Type: text/html");
+  client.println("");
+  client.println("<!DOCTYPE HTML>");
+  client.println("<html>");
+
+  client.println("<head>");
+  client.println("<title>LED TOGGLE</title>");
+  client.println("<style type=\"text/css\">");
+  client.println("body{");
+  client.println("background-color:#000000;");
+  client.println("color:#ffffff;");
+  client.println("font-family: Arial, Helvetica, sans-serif;");
+  client.println("font-size:30px;");
+  client.println("line-height:1.6em;");
+  client.println("margin:0;");
+  client.println("}");
+  client.println(".container{");
+  client.println("width:80%;");
+  client.println("margin:auto;");
+  client.println("overflow:hidden;");
+  client.println("text-align:center;");
+  client.println("}");
+  client.println("#main-header {");
+  client.println("background-color:coral;");
+  client.println("color:#fff;");
+  client.println("}");
+  client.println(".button1{");
+  client.println("border:1px #fff solid;");
+  if(state == on){
+  client.println("background-color:red;");
+  }
+  else{
+  client.println("background-color:#F75D59;");
+  }
+  client.println("color:#fff;");
+  client.println("padding:60px 60px;");
+  client.println("margin-top:10px;");
+  client.println("border-radius:50%;");
+  client.println("font-size:50px;");
+  client.println("}");
+  client.println(".button2{");
+  client.println("border:1px #fff solid;");
+  if(state == off){
+  client.println("background-color:red;");
+  }
+  else{
+  client.println("background-color:#F75D59;");
+  }
+  client.println("color:#fff;");
+  client.println("padding:60px 50px;");
+  client.println("margin-top:10px;");
+  client.println("border-radius:50%;");
+  client.println("font-size:50px;");
+  client.println("}");
+  client.println(".LED{");
+  client.println("border:1px #fff solid;");
+  if(state == off){
+  client.println("background-color:#000;");
+  }
+  else{
+  client.println("background-color:#FDD017;");
+  }
+  client.println("color:#fff;");
+  client.println("padding:80px 80px;");
+  client.println("margin-top:10px;");
+  client.println("border-radius:50%;");
+  client.println("}");
+  client.println("@media(max-width:600px){");
+  client.println("#main-header{");
+  client.println("width:100%;");
+  client.println("}");
+  client.println(".container{");
+  client.println("width:auto;");
+  client.println("}");
+  client.println(".LED{");
+  client.println("width:auto;");
+  client.println("}");
+  client.println("</style>");
+  client.println("</head>");
+  client.print("<body>");
+  client.println("<header id=\"main-header\">");
+  client.println("<div class=\"container\">");
+  client.println("<h1>LED TOGGLE</h1>");
+  client.println("<h4>by Vishal Soni</h4>");
+  client.println("</div>");
+  client.println("</header>");
+  client.println("<div class=\"container\">");
+  client.println("<button class=\"LED\"></button>");
+  client.println("</div>");
+  client.println("<div class=\"container\">");
+  client.println("<a href=\"/LEDON\"\"><button class=\"button1\">ON</button></a>");
+  client.println("<a href=\"/LEDOFF\"\"><button class=\"button2\">OFF</button></a>");
+  client.println("</div>");
+  client.print("</body>");
+  client.println("</html>");
+
+  delay(1);
+  Serial.println("Client disonnected");
+  Serial.println("");
+}

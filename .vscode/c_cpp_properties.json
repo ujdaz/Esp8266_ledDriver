@@ -38,12 +38,10 @@
             "includePath": [
                 "C:\\Users\\micha\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.1\\tools\\sdk\\include",
                 "C:\\Users\\micha\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.1\\tools\\sdk\\lwip2\\include",
-                "c:\\Users\\micha\\OneDrive\\Dokumenty\\GitHub\\Esp8266_ledDriver\\debug\\core",
+                "c:\\Users\\micha\\OneDrive\\Dokumenty\\GitHub\\Esp8266_ledDriver\\build\\core",
                 "C:\\Users\\micha\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.1\\cores\\esp8266",
                 "C:\\Users\\micha\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.1\\variants\\d1_mini",
-                "C:\\Users\\micha\\OneDrive\\Dokumenty\\Arduino\\libraries\\SuplaDevice\\src",
                 "C:\\Users\\micha\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.1\\libraries\\ESP8266WiFi\\src",
-                "C:\\Users\\micha\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\3.0.1\\libraries\\EEPROM",
                 "c:\\users\\micha\\appdata\\local\\arduino15\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.0.3-gcc10.3-9bcba0b\\xtensa-lx106-elf\\include\\c++\\10.3.0",
                 "c:\\users\\micha\\appdata\\local\\arduino15\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.0.3-gcc10.3-9bcba0b\\xtensa-lx106-elf\\include\\c++\\10.3.0\\xtensa-lx106-elf",
                 "c:\\users\\micha\\appdata\\local\\arduino15\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\3.0.3-gcc10.3-9bcba0b\\xtensa-lx106-elf\\include\\c++\\10.3.0\\backward",
