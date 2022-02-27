@@ -1,4 +1,5 @@
 #include <ESP8266WiFi.h>
+#include "RGBMI_driver.h"
 
 int state = LOW;
 int LED = LED_BUILTIN;
@@ -148,8 +149,8 @@ void loop()
   client.print("<body>");
   client.println("<header id=\"main-header\">");
   client.println("<div class=\"container\">");
-  client.println("<h1>LED TOGGLE</h1>");
-  client.println("<h4>by Vishal Soni</h4>");
+  client.println("<h1>LED CONTROL/h1>");
+  client.println("<h4>by Michal</h4>");
   client.println("</div>");
   client.println("</header>");
   client.println("<div class=\"container\">");
