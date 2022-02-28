@@ -28,7 +28,7 @@ void setup()
   if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
     Serial.println("STA Failed to configure");
   }
-  #endif
+ #endif
 
   Serial.print("Connecting");
   WiFi.begin(ssid, password);
@@ -38,7 +38,7 @@ void setup()
     Serial.print(".");
   }
   NTP_init();
-  
+
 
   Serial.println("WiFi connected");  
   server.begin();  // Starts the Server
