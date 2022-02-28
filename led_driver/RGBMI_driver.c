@@ -2,5 +2,5 @@
 
 void dupa ()
 {
-    //sada
+      Serial.println("WiFi connected"); 
 }
