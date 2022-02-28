@@ -1,6 +1,6 @@
-#include <ESP8266WiFi.h>
 #include "RGBMI_driver.h"
 #include "WiFiconf.h"
+#include "NTP_driver.h"
 
 int state = LOW;
 int LED = LED_BUILTIN;
@@ -9,6 +9,10 @@ char off = HIGH;
 
 const char* ssid = WiFissid;
 const char* password = WiFipassword;
+
+
+
+
 
 WiFiServer server(80);
 
@@ -33,6 +37,9 @@ void setup()
     delay(500);
     Serial.print(".");
   }
+  NTP_init();
+  
+
   Serial.println("WiFi connected");  
   server.begin();  // Starts the Server
   Serial.println("Server started");
