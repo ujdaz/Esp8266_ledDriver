@@ -1,6 +1,6 @@
 #include "RGBMI_driver.h"
 
-void dupa ()
+void dupa()
 {
-      Serial.println("WiFi connected"); 
+      //  Serial.println("WiFi connected");
 }
