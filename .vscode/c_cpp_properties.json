@@ -7,8 +7,7 @@
             "compilerArgs": [],
             "intelliSenseMode": "windows-gcc-x86",
             "includePath": [
-                "${workspaceFolder}/**",
-                "C:\\Users\\micha\\OneDrive\\Dokumenty\\Arduino\\libraries\\SuplaDevice\\src"
+                "${workspaceFolder}/**"
             ],
             "forcedInclude": [],
             "cStandard": "gnu11",
