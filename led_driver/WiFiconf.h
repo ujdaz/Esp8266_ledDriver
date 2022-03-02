@@ -3,6 +3,11 @@
 #define WiFissid "szczesliwy dom"
 #define WiFipassword "Z@rtowalem1"
 
+
+
+
+
+
 #define WiFiStaticIP
 
 #ifdef WiFiStaticIP
@@ -13,3 +18,5 @@
     IPAddress primaryDNS(8, 8, 8, 8);   // optional
     IPAddress secondaryDNS(8, 8, 4, 4); // optional
 #endif
+
+void WiFi_confInit();
