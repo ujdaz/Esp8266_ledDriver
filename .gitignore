@@ -27,3 +27,4 @@ build/
 .vscode/c_cpp_properties.json
 *.json
 led_driver/WiFiconf.h
+.vscode/settings.json
