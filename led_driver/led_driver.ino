@@ -53,12 +53,6 @@ void setup()
 
 void loop()
 {
-
-
-  
-  delay(100);
 NTP_main();
 
-  
-  
 }

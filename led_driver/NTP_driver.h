@@ -1,6 +1,6 @@
 
 
-#define autoSyncTime 600000UL //mili sek  600000UL = 1 godz   
+#define autoSyncTime 600000UL //mili sek  600000UL = 10 min   
 
 void NTP_init ();
 void NTP_printTime();
