@@ -10,6 +10,7 @@
         "initializer_list": "cpp",
         "ranges": "cpp",
         "rgbmi_driver.h": "c",
-        "ntpclient.h": "c"
+        "ntpclient.h": "c",
+        "chrono": "cpp"
     }
 }

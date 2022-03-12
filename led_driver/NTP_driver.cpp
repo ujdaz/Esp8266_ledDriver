@@ -22,10 +22,6 @@ void _NTP_timmer();
 void _NTP_autoSynchro();
 void _NTP_counter();
 void _NTP_update();
-// void NTP_init()
-// void NTP_printTime();
-// void NTP_main();
-
 /////////////////////////////////////////////////////////
 
 struct NTP_time
@@ -38,6 +34,7 @@ struct NTP_time
   uint8_t month;
   uint8_t year;
 } NTP_time_t;
+
 
 void _NTP_timmer()
 {
@@ -141,6 +138,8 @@ void NTP_printTime()
   Serial.print(daysOfTheWeek[NTP_time_t.dayOfWeek]);
   Serial.println("");
 }
+
+
 
 void NTP_main()
 {
