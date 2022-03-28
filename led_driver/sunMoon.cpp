@@ -1,11 +1,17 @@
 #include "sunMoon.h"
+#include "NTP_driver.h"
 
 sunMoon  sm;
 
 tmElements_t  tm;                             // specific time
 
+bool sunMoon_RedyToUpdate = false;
   
 
+void _sunMoon_update();
+void _SunMoon_timmer();
+void _SunMoon_interval();
+void _sunMoon_printData();
 
 
 bool sunMoon::init(int Timezone, float Latitude, float Longitude) {
@@ -167,12 +173,13 @@ void printDate(time_t date) {
 
 void sunMoon_init()
 {
-    tm.Second = 0;
-  tm.Minute = 12;
-  tm.Hour   = 12;
-  tm.Day    = 12;
-  tm.Month  = 3;
-  tm.Year   = 2022 - 1970;
+      Serial.println("Sun rise and sun set init start");
+  tm.Second = NTP_time_t.seconds;
+  tm.Minute = NTP_time_t.seconds;
+  tm.Hour   = NTP_time_t.hour;
+  tm.Day    = NTP_time_t.day;
+  tm.Month  = NTP_time_t.month;
+  tm.Year   = NTP_time_t.year - 1970;
   time_t s_date = makeTime(tm);
 
     sm.init(OUR_timezone, OUR_latitude, OUR_longtitude);
@@ -188,5 +195,65 @@ Serial.print("Specific date was ");
   //Serial.print("Moon age was "); Serial.print(mDay); Serial.println("day(s)");
   printDate(sm.sunRise(s_date)); Serial.print("; ");
   printDate(sm.sunSet(s_date));  Serial.println("");
+      Serial.println("Sun rise and sun set init done");
+}
 
+void sunMoon_main()
+{
+_SunMoon_timmer();
+_SunMoon_interval();
+
+
+
+
+}
+
+void _SunMoon_interval()
+{
+  if (sunMoon_RedyToUpdate == true &&NTP_time_t.hour = 0)
+  {
+    Serial.println("Sun rise and sun set start update");
+    _sunMoon_update();
+    _sunMoon_printData();
+  }
+}
+
+void _SunMoon_timmer()
+{
+static uint32_t SunMoon_actualtimmer = 0;
+static uint32_t SunMoon_savedtimmer = 0;
+static uint32_t SunMoon_divtimmer = 0;
+
+
+  SunMoon_actualtimmer = millis();
+  SunMoon_divtimmer = SunMoon_actualtimmer - SunMoon_savedtimmer;
+  if (SunMoon_divtimmer >= 10000UL) 
+  {
+    SunMoon_savedtimmer = SunMoon_actualtimmer;
+    sunMoon_RedyToUpdate = true
+  }
+}
+
+void _sunMoon_update()
+{
+  tm.Second = NTP_time_t.seconds;
+  tm.Minute = NTP_time_t.seconds;
+  tm.Hour   = NTP_time_t.hour;
+  tm.Day    = NTP_time_t.day;
+  tm.Month  = NTP_time_t.month;
+  tm.Year   = NTP_time_t.year - 1970;
+  time_t s_date = makeTime(tm);
+
+  sRise = sm.sunRise(s_date);
+  sSet  = sm.sunSet(s_date);
+  Serial.println("Sun rise and sun set successfull update");
+}
+
+void _sunMoon_printData()
+{
+    Serial.print("Sun rise and sun set time is: ");
+  //Serial.print("Julian day of specific date was "); Serial.println(jDay);
+  //Serial.print("Moon age was "); Serial.print(mDay); Serial.println("day(s)");
+  printDate(sm.sunRise(s_date)); Serial.print("; ");
+  printDate(sm.sunSet(s_date));  Serial.println("");
 }
